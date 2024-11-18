@@ -12,7 +12,7 @@ Cell::Cell(QGraphicsItem* parent , int x, int y)  : QGraphicsRectItem(parent), m
     setRect(x,y,50,50);
     updateBrush();
 }
-
+// ааа
 void Cell::setContent(CellContent content)
 {
     m_content = content;
