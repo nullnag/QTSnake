@@ -3,15 +3,15 @@
 #include "GameField.h"
 #include <QKeyEvent>
 
-Snake::Snake(GameField *gameField, int x, int y) : gameField(gameField)
+Snake::Snake(GameField *gameField, int x, int y) : gameField(gameField), startX(x), startY(y)
 {
     direction = Direction::Right;
     pendingDirection = Direction::Right;
-    body.append(QPoint(x, y));
-    body.append(QPoint(x - 1, y));
-    body.append(QPoint(x - 2, y));
+    body.append(QPoint(startX, startY));
+    body.append(QPoint(startX - 1, startY));
+    body.append(QPoint(startX - 2, startY));
     for (const auto& segment : body) {
-        gameField->getCells()[segment.x()][segment.y()]->setContent(CellContent::Snake);
+        gameField->getCell(segment.x(),segment.y())->setContent(CellContent::Snake);
     }
 
 }
@@ -22,11 +22,10 @@ void Snake::move()
         direction = pendingDirection;
     }
     QPoint tail = body.last();
-    Cell* tailCell = gameField->getCells()[tail.x()][tail.y()];
+    Cell* tailCell = gameField->getCell(tail.x(),tail.y());
     if (tailCell) {
         tailCell->setContent(CellContent::Empty);
     }
-
     for (int i = body.size() - 1; i > 0; --i) {
         body[i] = body[i - 1];
     }
@@ -56,8 +55,7 @@ QPoint Snake::calculateNewHead()
 void Snake::setNewHead(QPoint head)
 {
     body[0] = head;
-
-    Cell* headCell = gameField->getCells()[head.x()][head.y()];
+    Cell* headCell = gameField->getCell(head.x(),head.y());
     if (headCell) {
         headCell->setContent(CellContent::Snake);
     }
@@ -84,6 +82,18 @@ void Snake::changeDirection(Direction dir)
     }
 }
 
+void Snake::reset()
+{
+    body.clear();
+    direction = Direction::Right;
+    pendingDirection = Direction::Right;
+    body.append(QPoint(startX, startY));
+    body.append(QPoint(startX - 1, startY));
+    body.append(QPoint(startX - 2, startY));
+    for (const auto& segment : body) {
+        gameField->getCell(segment.x(),segment.y())->setContent(CellContent::Snake);
+    }
+}
 
 QPoint Snake::getHead()
 {
