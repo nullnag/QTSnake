@@ -8,7 +8,7 @@
 
 class GameWindow;
 
-class Game : public QWidget
+class Game : public QObject
 {
     Q_OBJECT
 public:

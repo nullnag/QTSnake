@@ -2,14 +2,16 @@
 #include <QRandomGenerator>
 #include <QKeyEvent>
 #include <QTimer>
+#include <QDebug>
 
 Game::Game(GameField *gameField, Snake *snake) : gameField(gameField), snake(snake)
 {
+    gameField->setFocus();
     gameTimer = new QTimer(this);
     connect(gameTimer, &QTimer::timeout, this, &Game::updateGame);
-    gameTimer->start(50);
     gameRules = new GameRules(gameField,snake);
     spawnFood();
+    gameTimer->start(100);
 }
 
 Game::~Game()
@@ -20,7 +22,8 @@ Game::~Game()
 
 void Game::keyPressEvent(QKeyEvent *event)
 {
-    if (event->isAutoRepeat()) return;
+
+
     switch (event->key()) {
     case Qt::Key_W:
         if (snake->getDirection() != Direction::Down) {
@@ -66,7 +69,7 @@ void Game::updateGame()
         gameTimer->stop();
         return;
     }
-    snake->setNewHead();
+    snake->setNewHead(newHead);
     if (gameRules->isCollisionWithFood(newHead, foodPosition)) {
         qDebug() << "Snake ate the food!";
         gameField->getCells()[foodPosition.x()][foodPosition.y()]->setContent(CellContent::Snake);

@@ -1,4 +1,5 @@
 #include "gameRules.h"
+#include <QDebug>
 
 GameRules::GameRules(GameField *gameField, Snake *snake) : gameField(gameField), snake(snake)
 {
@@ -15,6 +16,7 @@ bool GameRules::isCollisionWithSelf(const QPoint& newHead)
     const auto& body = snake->getBody();
     for (const auto& segment : body) {
         if (segment == newHead) {
+            qDebug() << "Змейка ударилась в себя";
             return true;
         }
     }

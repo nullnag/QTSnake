@@ -20,7 +20,7 @@ public:
     void move();
     void grow();
     void changeDirection(Direction dir);
-    void setNewHead();
+    void setNewHead(QPoint head);
     Direction getDirection();
     QPoint calculateNewHead();
     QPoint getHead();

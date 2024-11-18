@@ -5,6 +5,8 @@
 
 Snake::Snake(GameField *gameField, int x, int y) : gameField(gameField)
 {
+    direction = Direction::Right;
+    pendingDirection = Direction::Right;
     body.append(QPoint(x, y));
     body.append(QPoint(x - 1, y));
     body.append(QPoint(x - 2, y));
@@ -29,7 +31,6 @@ void Snake::move()
         body[i] = body[i - 1];
     }
 
-
 }
 
 QPoint Snake::calculateNewHead()
@@ -52,9 +53,8 @@ QPoint Snake::calculateNewHead()
     return head;
 }
 
-void Snake::setNewHead()
+void Snake::setNewHead(QPoint head)
 {
-    QPoint head = calculateNewHead();
     body[0] = head;
 
     Cell* headCell = gameField->getCells()[head.x()][head.y()];
