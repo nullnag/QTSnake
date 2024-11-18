@@ -14,6 +14,7 @@ public:
     GameField(QObject* parent = nullptr, int sizeField = 16);
     QVector<QVector<Cell*>> getCells();
     int getSize();
+    void clear();
     Cell *getCell(int x, int y);
     ~GameField();
 

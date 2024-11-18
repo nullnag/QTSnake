@@ -20,12 +20,15 @@ public:
     void move();
     void grow();
     void changeDirection(Direction dir);
+    void reset();
     void setNewHead(QPoint head);
     Direction getDirection();
     QPoint calculateNewHead();
     QPoint getHead();
     QList<QPoint> getBody();
 private:
+    int startX;
+    int startY;
     GameField* gameField;
     QList<QPoint> body;
     Direction direction;

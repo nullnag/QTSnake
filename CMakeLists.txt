@@ -26,6 +26,8 @@ set(PROJECT_SOURCES
         gameRules.cpp
         Snake.h
         Snake.cpp
+        GameOverDialog.h
+        GameOverDialog.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -37,6 +39,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         Snake.h Snake.cpp
         Game.h Game.cpp
         gameRules.h gameRules.cpp
+        GameOverDialog.h GameOverDialog.cpp
 
 
     )

@@ -8,7 +8,7 @@ const QMap<CellContent,QBrush> Cell::brushMap = {
 };
 
 
-Cell::Cell(QGraphicsItem* parent , int x, int y)  : QGraphicsRectItem(parent), m_content(CellContent::Empty), mX(x), mY(y) {
+Cell::Cell(QGraphicsItem* parent , int x, int y)  : QGraphicsRectItem(parent), m_content(CellContent::Empty), startX(x), startY(y) {
     setRect(x,y,50,50);
     updateBrush();
 }
@@ -31,7 +31,7 @@ bool Cell::isEmpty()
 
 QPoint Cell::getPosition() const
 {
-    return QPoint(mX,mY);
+    return QPoint(startX,startY);
 }
 
 void Cell::removeContent()

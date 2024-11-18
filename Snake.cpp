@@ -3,13 +3,13 @@
 #include "GameField.h"
 #include <QKeyEvent>
 
-Snake::Snake(GameField *gameField, int x, int y) : gameField(gameField)
+Snake::Snake(GameField *gameField, int x, int y) : gameField(gameField), startX(x), startY(y)
 {
     direction = Direction::Right;
     pendingDirection = Direction::Right;
-    body.append(QPoint(x, y));
-    body.append(QPoint(x - 1, y));
-    body.append(QPoint(x - 2, y));
+    body.append(QPoint(startX, startY));
+    body.append(QPoint(startX - 1, startY));
+    body.append(QPoint(startX - 2, startY));
     for (const auto& segment : body) {
         gameField->getCell(segment.x(),segment.y())->setContent(CellContent::Snake);
     }
@@ -79,6 +79,19 @@ void Snake::changeDirection(Direction dir)
         (direction == Direction::Left && dir != Direction::Right) ||
         (direction == Direction::Right && dir != Direction::Left)) {
         pendingDirection = dir;
+    }
+}
+
+void Snake::reset()
+{
+    body.clear();
+    direction = Direction::Right;
+    pendingDirection = Direction::Right;
+    body.append(QPoint(startX, startY));
+    body.append(QPoint(startX - 1, startY));
+    body.append(QPoint(startX - 2, startY));
+    for (const auto& segment : body) {
+        gameField->getCell(segment.x(),segment.y())->setContent(CellContent::Snake);
     }
 }
 

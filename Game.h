@@ -15,6 +15,7 @@ public:
     Game(GameField* gameField = nullptr, Snake* snake = nullptr);
     ~Game();
     void keyPressEvent(QKeyEvent *event);
+    void restartGame();
     void endGame();
     void updateGame();
     void spawnFood();

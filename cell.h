@@ -20,7 +20,7 @@ public:
     QPoint getPosition() const;
     void removeContent();
 private:
-    int mX, mY;
+    int startX, startY;
     CellContent m_content;
     void updateBrush();
     static const QMap<CellContent,QBrush> brushMap;
