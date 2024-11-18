@@ -27,6 +27,16 @@ int GameField::getSize()
     return sizeField;
 }
 
+void GameField::clear()
+{
+    for (int x = 0; x < sizeField; x++){
+        cells[x].resize(sizeField);
+        for (int y = 0; y < sizeField; y++){
+            cells[x][y]->setContent(CellContent::Empty);
+        }
+    }
+}
+
 Cell *GameField::getCell(int x, int y)
 {
     return cells[x][y];

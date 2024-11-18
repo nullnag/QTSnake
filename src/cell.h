@@ -23,6 +23,7 @@ private:
     int startX, startY;
     CellContent m_content;
     void updateBrush();
+    static const QMap<CellContent,QBrush> brushMap;
 };
 
 #endif // CELL_H

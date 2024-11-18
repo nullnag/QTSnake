@@ -1,4 +1,6 @@
 #include "Game.h"
+#include "GameOverDialog.h"
+#include <QApplication>
 #include <QRandomGenerator>
 #include <QKeyEvent>
 #include <QTimer>
@@ -22,8 +24,6 @@ Game::~Game()
 
 void Game::keyPressEvent(QKeyEvent *event)
 {
-
-
     switch (event->key()) {
     case Qt::Key_W:
         if (snake->getDirection() != Direction::Down) {
@@ -48,15 +48,30 @@ void Game::keyPressEvent(QKeyEvent *event)
     }
 }
 
+void Game::restartGame()
+{
+    gameField->clear();
+    snake->reset();
+    spawnFood();
+    gameTimer->start(100);
+}
+
 void Game::endGame()
 {
+    QString message;
     if (snake->getBody().size() - 1 == gameField->getSize() * gameField->getSize()){
-        qDebug() << "Вы выйграли";
-        return;
+        message = "You won!";
     }
     else{
-        qDebug() << "Вы проиграли";
-        return;
+        message = "You lost!";
+    }
+    GameOverDialog dialog(message,nullptr);
+    int result = dialog.exec();
+
+    if (result == QDialog::Accepted) {
+        restartGame(); // Метод для перезапуска игры
+    } else {
+        QApplication::quit(); // Завершение приложения
     }
 }
 
@@ -65,14 +80,14 @@ void Game::updateGame()
     snake->move();
     QPoint newHead = snake->calculateNewHead();
     if (gameRules->checkCollision(newHead)) {
-        endGame();
         gameTimer->stop();
+        endGame();
         return;
     }
     snake->setNewHead(newHead);
     if (gameRules->isCollisionWithFood(newHead, foodPosition)) {
         qDebug() << "Snake ate the food!";
-        gameField->getCells()[foodPosition.x()][foodPosition.y()]->setContent(CellContent::Snake);
+        gameField->getCell(foodPosition.x(),foodPosition.y())->setContent(CellContent::Snake);
         spawnFood();
 
         snake->grow();
@@ -105,7 +120,7 @@ void Game::spawnFood()
         }
     }
     qDebug() << "Food spawned at:" << x << y;
-    gameField->getCells()[x][y]->setContent(CellContent::Fruit);
+    gameField->getCell(x,y)->setContent(CellContent::Fruit);
     foodPosition = QPoint(x, y);
 }
 
