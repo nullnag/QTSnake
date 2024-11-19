@@ -13,7 +13,6 @@ Game::Game(GameField *gameField, Snake *snake) : gameField(gameField), snake(sna
     connect(gameTimer, &QTimer::timeout, this, &Game::updateGame);
     gameRules = new GameRules(gameField,snake);
     spawnFood();
-    gameTimer->start(100);
 }
 
 Game::~Game()
@@ -24,6 +23,10 @@ Game::~Game()
 
 void Game::keyPressEvent(QKeyEvent *event)
 {
+    if (!isGameStarted){
+        gameTimer->start(100);
+        isGameStarted = true;
+    }
     switch (event->key()) {
     case Qt::Key_W:
         if (snake->getDirection() != Direction::Down) {
@@ -50,10 +53,10 @@ void Game::keyPressEvent(QKeyEvent *event)
 
 void Game::restartGame()
 {
+    isGameStarted = false;
     gameField->clear();
     snake->reset();
     spawnFood();
-    gameTimer->start(100);
 }
 
 void Game::endGame()
