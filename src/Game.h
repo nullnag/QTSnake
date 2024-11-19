@@ -26,6 +26,7 @@ private:
     QTimer* gameTimer;
     GameField* gameField;
     Snake* snake;
+    bool isGameStarted = false;
 };
 
 #endif // GAME_H

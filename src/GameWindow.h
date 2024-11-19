@@ -17,8 +17,8 @@ public:
     Snake* snake;
     Game* game;
 private:
-    int snakeXCoord = 6;
-    int snakeYCoord = 6;
+    int snakeXCoord = 5;
+    int snakeYCoord = 5;
     int fieldSize = 16;
 };
 #endif // GAMEWINDOW_H
