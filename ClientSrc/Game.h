@@ -12,7 +12,7 @@ class Game : public QObject
 {
     Q_OBJECT
 public:
-    Game(GameField* gameField = nullptr, Snake* snake = nullptr);
+    Game(GameField* gameField = nullptr, Snake* snake = nullptr,GameWindow* parentWindow = nullptr);
     ~Game();
     void keyPressEvent(QKeyEvent *event);
     void restartGame();
@@ -26,6 +26,7 @@ private:
     QTimer* gameTimer;
     GameField* gameField;
     Snake* snake;
+    GameWindow* parentWindow;
     bool isGameStarted = false;
 };
 

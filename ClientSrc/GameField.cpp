@@ -44,6 +44,7 @@ Cell *GameField::getCell(int x, int y)
 
 GameField::~GameField()
 {
+    qDebug() << "~gameField";
     for (auto i : cells){
         for (auto j : i){
             delete j;

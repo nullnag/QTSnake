@@ -10,7 +10,7 @@ class GameWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    GameWindow(QWidget *parent = nullptr);
+    GameWindow(QWidget *parent = nullptr,int fieldSize = 16);
     ~GameWindow();
     void keyPressEvent(QKeyEvent *event);
     GameField* gameField;

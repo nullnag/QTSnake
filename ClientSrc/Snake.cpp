@@ -13,6 +13,11 @@ Snake::Snake(GameField *gameField) : gameField(gameField)
     createSnakeBody();
 }
 
+Snake::~Snake()
+{
+    qDebug() << "~snake";
+}
+
 
 void Snake::createSnakeBody()
 {

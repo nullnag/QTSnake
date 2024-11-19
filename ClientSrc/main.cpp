@@ -1,13 +1,16 @@
 #include "GameWindow.h"
+#include "MainMenu.h"
 
 #include <QApplication>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    GameWindow w;
-    w.setFixedSize(805, 805);
+    //GameWindow w;
+    MainMenu menu;
+    menu.show();
+    //w.setFixedSize(805, 805);
 
-    w.show();
+    //w.show();
     return a.exec();
 }
