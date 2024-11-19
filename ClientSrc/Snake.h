@@ -16,7 +16,7 @@ class Snake : public QObject
     Q_OBJECT
 public:
     Snake(GameField* gameField);
-
+    ~Snake();
     void move();
     void grow();
     void changeDirection(Direction dir);

@@ -1,12 +1,13 @@
 #include "Game.h"
 #include "GameOverDialog.h"
+#include "GameWindow.h"
 #include <QApplication>
 #include <QRandomGenerator>
 #include <QKeyEvent>
 #include <QTimer>
 #include <QDebug>
 
-Game::Game(GameField *gameField, Snake *snake) : gameField(gameField), snake(snake)
+Game::Game(GameField *gameField, Snake *snake,GameWindow* parentWindow) : gameField(gameField), snake(snake), parentWindow(parentWindow)
 {
     gameField->setFocus();
     gameTimer = new QTimer(this);
@@ -17,6 +18,7 @@ Game::Game(GameField *gameField, Snake *snake) : gameField(gameField), snake(sna
 
 Game::~Game()
 {
+    qDebug() << "~game";
     delete gameRules;
 }
 
@@ -74,7 +76,7 @@ void Game::endGame()
     if (result == QDialog::Accepted) {
         restartGame(); // Метод для перезапуска игры
     } else {
-        QApplication::quit(); // Завершение приложения
+        parentWindow->close();
     }
 }
 
