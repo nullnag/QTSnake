@@ -1,22 +1,16 @@
 #include "cell.h"
 #include <QBrush>
 
-const QMap<CellContent,QBrush> Cell::brushMap = {
-    {CellContent::Empty, QBrush(Qt::white)},
-    {CellContent::Fruit, QBrush(Qt::red)},
-    {CellContent::Snake, QBrush(Qt::green)},
-};
 
 
-Cell::Cell(QGraphicsItem* parent , int x, int y)  : QGraphicsRectItem(parent), m_content(CellContent::Empty), startX(x), startY(y) {
-    setRect(x,y,50,50);
-    updateBrush();
+Cell::Cell(QObject* parent , int x, int y)  : QObject(parent), m_content(CellContent::Empty), startX(x), startY(y) {
+
 }
 // ааа
 void Cell::setContent(CellContent content)
 {
     m_content = content;
-    updateBrush();
+    emit contentChanged(startX,startY,content);
 }
 
 CellContent Cell::getContent() const
@@ -29,9 +23,14 @@ bool Cell::isEmpty()
     return m_content == CellContent::Empty;
 }
 
-QPoint Cell::getPosition() const
+int Cell::getX()
 {
-    return QPoint(startX,startY);
+    return startX;
+}
+
+int Cell::getY()
+{
+    return startY;
 }
 
 void Cell::removeContent()
@@ -39,11 +38,4 @@ void Cell::removeContent()
     setContent(CellContent::Empty);
 }
 
-void Cell::updateBrush()
-{
-    auto it = brushMap.find(m_content);
-    if (it != brushMap.end()){
-        setBrush(brushMap[m_content]);
-    }
-}
 

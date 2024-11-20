@@ -1,25 +1,23 @@
 #ifndef GAMEFIELD_H
 #define GAMEFIELD_H
 
-#include <QGraphicsScene>
 #include "Cell.h"
 #include <QVector>
 
-class Snake;
-
-class GameField : public QGraphicsScene
+class GameField : public QObject
 {
     Q_OBJECT
 public:
     GameField(QObject* parent = nullptr, int sizeField = 16);
-    QVector<QVector<Cell*>> getCells();
     int getSize();
     void clear();
     Cell *getCell(int x, int y);
     ~GameField();
-
+signals:
+    void fieldCleared();
+    void cellUpdated(int x, int y, CellContent content);
 private:
-    int sizeField;
+    int size;
     QVector<QVector<Cell*>> cells;
 
 };

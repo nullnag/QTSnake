@@ -10,20 +10,22 @@ enum class CellContent
     Snake
 };
 
-class Cell : public QGraphicsRectItem
+class Cell : public QObject
 {
+    Q_OBJECT
 public:
-    Cell(QGraphicsItem* parent = nullptr, int x = 0, int y = 0);
+    Cell(QObject* parent = nullptr, int x = 0, int y = 0);
     void setContent(CellContent content);
     CellContent getContent() const;
     bool isEmpty();
-    QPoint getPosition() const;
+    int getX();
+    int getY();
     void removeContent();
+signals:
+    void contentChanged(int x, int y, CellContent content);
 private:
     int startX, startY;
     CellContent m_content;
-    void updateBrush();
-    static const QMap<CellContent,QBrush> brushMap;
 };
 
 #endif // CELL_H

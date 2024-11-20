@@ -7,10 +7,15 @@ GameWindow::GameWindow(QWidget *parent,int fieldSize) :
     , QMainWindow(parent)
 {
 
+
     gameField = new GameField(this,fieldSize);
+    gameFieldView = new GameFieldView(gameField,this);
     snake = new Snake(gameField);
+    inputHandler = new DefaultInputHandler();
     game = new Game(gameField,snake,this);
-    QGraphicsView* view = new QGraphicsView(gameField, this);
+
+
+    QGraphicsView* view = new QGraphicsView(gameFieldView, this);
     view->setFocusPolicy(Qt::StrongFocus);
     setCentralWidget(view);
 
@@ -24,8 +29,6 @@ GameWindow::~GameWindow() {
 
 void GameWindow::keyPressEvent(QKeyEvent *event)
 {
-    QMainWindow::keyPressEvent(event);
-    if (game) {
-        game->keyPressEvent(event);
-    }
+    inputHandler->handleKeyPress(event,snake);
+    game->startGame();
 }

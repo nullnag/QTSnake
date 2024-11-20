@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include "GameField.h"
+#include "InputHandler.h"
+#include "GameFieldView.h"
 #include "Game.h"
 
 class GameWindow : public QMainWindow
@@ -14,7 +16,9 @@ public:
     ~GameWindow();
     void keyPressEvent(QKeyEvent *event);
     GameField* gameField;
+    GameFieldView* gameFieldView;
     Snake* snake;
+    IInputHandler* inputHandler;
     Game* game;
 private:
     int fieldSize = 16;

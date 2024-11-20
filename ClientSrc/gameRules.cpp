@@ -6,6 +6,11 @@ GameRules::GameRules(GameField *gameField, Snake *snake) : gameField(gameField),
 
 }
 
+GameRules::~GameRules()
+{
+
+}
+
 bool GameRules::checkCollision(const QPoint& newHead)
 {
     return isCollisionWithSelf(newHead) || isCollisionWithWall(newHead);
