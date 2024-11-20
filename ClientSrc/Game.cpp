@@ -9,48 +9,16 @@
 
 Game::Game(GameField *gameField, Snake *snake,GameWindow* parentWindow) : gameField(gameField), snake(snake), parentWindow(parentWindow)
 {
-    gameField->setFocus();
     gameTimer = new QTimer(this);
     connect(gameTimer, &QTimer::timeout, this, &Game::updateGame);
     gameRules = new GameRules(gameField,snake);
-    spawnFood();
+    Game::spawnFood();
 }
 
 Game::~Game()
 {
     qDebug() << "~game";
     delete gameRules;
-}
-
-
-void Game::keyPressEvent(QKeyEvent *event)
-{
-    if (!isGameStarted){
-        gameTimer->start(100);
-        isGameStarted = true;
-    }
-    switch (event->key()) {
-    case Qt::Key_W:
-        if (snake->getDirection() != Direction::Down) {
-            snake->changeDirection(Direction::Up);
-        }
-        break;
-    case Qt::Key_S:
-        if (snake->getDirection() != Direction::Up) {
-            snake->changeDirection(Direction::Down);
-        }
-        break;
-    case Qt::Key_A:
-        if (snake->getDirection() != Direction::Right) {
-            snake->changeDirection(Direction::Left);
-        }
-        break;
-    case Qt::Key_D:
-        if (snake->getDirection() != Direction::Left) {
-            snake->changeDirection(Direction::Right);
-        }
-        break;
-    }
 }
 
 void Game::restartGame()
@@ -74,9 +42,17 @@ void Game::endGame()
     int result = dialog.exec();
 
     if (result == QDialog::Accepted) {
-        restartGame(); // Метод для перезапуска игры
+        restartGame();
     } else {
         parentWindow->close();
+    }
+}
+
+void Game::startGame()
+{
+    if (!isGameStarted) {
+        gameTimer->start(100);
+        isGameStarted = true;
     }
 }
 
@@ -121,7 +97,7 @@ void Game::spawnFood()
         }
 
         if (!occupiedBySnake) {
-            valid = true; // Нашли подходящую клетку
+            valid = true;
         }
     }
     qDebug() << "Food spawned at:" << x << y;

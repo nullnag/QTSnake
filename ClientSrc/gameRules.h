@@ -3,14 +3,24 @@
 
 #include "Snake.h"
 
-class GameRules
+class IGameRules{
+public:
+    virtual ~IGameRules() = default;
+    virtual bool checkCollision(const QPoint& newHead) = 0;
+    virtual bool isCollisionWithSelf(const QPoint& newHead) = 0;
+    virtual bool isCollisionWithWall(const QPoint& newHead) = 0;
+    virtual bool isCollisionWithFood(const QPoint& newHead,const QPoint& foodPosition) = 0;
+};
+
+class GameRules : public IGameRules
 {
 public:
     GameRules(GameField* gameField, Snake* snake);
-    bool checkCollision(const QPoint& newHead);
-    bool isCollisionWithSelf(const QPoint& newHead);
-    bool isCollisionWithWall(const QPoint& newHead);
-    bool isCollisionWithFood(const QPoint& newHead,const QPoint& foodPosition);
+    ~GameRules() override;
+    bool checkCollision(const QPoint& newHead) override;
+    bool isCollisionWithSelf(const QPoint& newHead) override;
+    bool isCollisionWithWall(const QPoint& newHead) override;
+    bool isCollisionWithFood(const QPoint& newHead,const QPoint& foodPosition) override;
 private:
     GameField* gameField;
     Snake* snake;

@@ -4,50 +4,45 @@
 #include <QObject>
 #include <QKeyEvent>
 
-GameField::GameField(QObject* parent, int sizeField) : QGraphicsScene(parent), sizeField(sizeField) {
-    cells.resize(sizeField);
-    for (int x = 0; x < sizeField; x++){
-        cells[x].resize(sizeField);
-        for (int y = 0; y < sizeField; y++){
-            Cell* cell = new Cell(nullptr, x * 50 , y * 50);
-            addItem(cell); // Добавляем клетку на сцену
-            cells[x][y] = cell;
+GameField::GameField(QObject* parent, int size) : QObject(parent), size(size) {
+    cells.resize(size);
+    cells.resize(size);
+    for (int x = 0; x < size; ++x) {
+        cells[x].resize(size);
+        for (int y = 0; y < size; ++y) {
+            cells[x][y] = new Cell(this, x, y);
+            connect(cells[x][y], &Cell::contentChanged, this, &GameField::cellUpdated);
         }
     }
 }
 
-QVector<QVector<Cell*>> GameField::getCells()
-{
-    return cells;
-}
-
-
 int GameField::getSize()
 {
-    return sizeField;
+    return size;
 }
 
 void GameField::clear()
 {
-    for (int x = 0; x < sizeField; x++){
-        cells[x].resize(sizeField);
-        for (int y = 0; y < sizeField; y++){
-            cells[x][y]->setContent(CellContent::Empty);
+    for (auto& row : cells) {
+        for (auto& cell : row) {
+            cell->setContent(CellContent::Empty);
         }
     }
+    emit fieldCleared();
 }
 
 Cell *GameField::getCell(int x, int y)
 {
+    if (x > size || y > size){
+        return nullptr;
+    }
     return cells[x][y];
 }
 
 GameField::~GameField()
 {
     qDebug() << "~gameField";
-    for (auto i : cells){
-        for (auto j : i){
-            delete j;
-        }
+    for (auto& row : cells) {
+        qDeleteAll(row);
     }
 }
