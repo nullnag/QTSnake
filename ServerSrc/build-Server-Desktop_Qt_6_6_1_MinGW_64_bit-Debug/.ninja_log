@@ -1,0 +1,10 @@
+# ninja log v5
+153	259	7539002112528539	CMakeFiles/Server.dir/server.cpp.obj	3892342a96b0a864
+7	432	7539170999556850	build.ninja	9f098afce87adf8c
+11	111	7539002235021811	Server_autogen/timestamp	30e8071fece8cd4f
+11	111	7539002235021811	Server_autogen/mocs_compilation.cpp	30e8071fece8cd4f
+11	111	7539002235021811	C:/Users/boiko/Documents/GameWindow/ServerSrc/build-Server-Desktop_Qt_6_6_1_MinGW_64_bit-Debug/Server_autogen/timestamp	30e8071fece8cd4f
+11	111	7539002235021811	C:/Users/boiko/Documents/GameWindow/ServerSrc/build-Server-Desktop_Qt_6_6_1_MinGW_64_bit-Debug/Server_autogen/mocs_compilation.cpp	30e8071fece8cd4f
+149	1710	7539002127026792	CMakeFiles/Server.dir/main.cpp.obj	841fbcdb913bafaa
+156	232	7539002112228569	CMakeFiles/Server.dir/Server_autogen/mocs_compilation.cpp.obj	28d3f5ce7c1b2d70
+1712	1968	7539002129536825	Server.exe	ffbe7f2778c739d
