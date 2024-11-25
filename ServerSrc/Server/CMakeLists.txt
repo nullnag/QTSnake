@@ -16,8 +16,11 @@ add_executable(Server
   main.cpp
   server.h server.cpp
   SessionManager.h SessionManager.cpp
-  MessageHandler.h MessageHandler.cpp
+
   Session.h Session.cpp
+  IRequestHandler.h IRequestHandler.cpp
+  RequestRouter.h RequestRouter.cpp
+  Snake.h Snake.cpp
 )
 target_link_libraries(Server PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Network)
 
