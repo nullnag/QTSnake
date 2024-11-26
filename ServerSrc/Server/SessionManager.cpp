@@ -1,11 +1,17 @@
 #include "SessionManager.h"
 
-SessionManager::SessionManager() {}
+SessionManager::SessionManager(QObject* parent) : QObject(parent) {
+}
 
 void SessionManager::createSession(const QString& leaderName,const int countOfPlayers,const int fieldSize)
 {
-    sessions[leaderName] = new Session(nullptr,countOfPlayers,fieldSize);
+    Session* newSession = new Session(nullptr,countOfPlayers,fieldSize);
+    sessions[leaderName] = newSession;
     sessions[leaderName]->addPlayer(leaderName);
+    connect(newSession, &Session::updateGameState, this, [this, newSession]() {
+        QByteArray gameState = newSession->serializeGameState();
+        updateGameState(newSession, gameState);
+    });
 }
 
 void SessionManager::addPlayerToSession(const QString& leaderName,const QString& joiningPlayer)

@@ -3,6 +3,7 @@
 
 #include "QHash"
 #include <QTimer>
+#include <QHostAddress>
 #include "Snake.h"
 
 class Session : public QObject
@@ -15,14 +16,15 @@ public:
     void addPlayer(const QString& nickname);
     void deletePlayer(const QString& nickname);
     bool hasPlayer(const QString& nickname);
+    QList<QString> getPlayers();
     void updateGameState();
     Snake* getSnakeByNickName(const QString& nickname);
+    QByteArray serializeGameState() const;
 private:
     int countOfPlayers;
     int fieldSize;
     QHash<QString,Snake*> snakes;
     QTimer* gameUpdateTimer;
-    QByteArray serializeGameState() const;
 };
 
 #endif // SESSION_H

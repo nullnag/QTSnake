@@ -2,8 +2,9 @@
 #define IREQUESTHANDLER_H
 
 #include <QByteArray>
-#include "SessionManager.h"
 #include <QHostAddress>
+
+class Server;
 
 class IRequestHandler
 {
@@ -14,35 +15,42 @@ public:
 
 class CreateSessionHandler : public IRequestHandler {
 public:
-    explicit CreateSessionHandler(SessionManager* sessionManager);
+    explicit CreateSessionHandler(Server* server);
     void handle(const QString& data, const QHostAddress& sender, quint16 port) override;
 private:
-    SessionManager* sessionManager;
+    Server* server;
 };
 
 class JointSessionHandler : public IRequestHandler {
 public:
-    explicit JointSessionHandler(SessionManager* sessionManager);
+    explicit JointSessionHandler(Server* Server);
     void handle(const QString& data, const QHostAddress& sender, quint16 port) override;
 private:
-    SessionManager* sessionManager;
+    Server* server;
 };
 
 class InviteSessionHandler : public IRequestHandler{
 public:
-    explicit InviteSessionHandler(SessionManager* sessionManager);
+    explicit InviteSessionHandler(Server* Server);
     void handle(const QString& data, const QHostAddress& sender, quint16 port) override;
 private:
-    SessionManager* sessionManager;
+    Server* server;
 };
 
 class ChangeDirectionHandler : public IRequestHandler{
 public:
-    explicit ChangeDirectionHandler(SessionManager* sessionManager);
+    explicit ChangeDirectionHandler(Server* Server);
     void handle(const QString& data, const QHostAddress& sender, quint16 port) override;
 private:
-    SessionManager* sessionManager;
+    Server* server;
 };
 
+class RegisterPlayerHandler : public IRequestHandler {
+public:
+    explicit RegisterPlayerHandler(Server* Server);
+    void handle(const QString& data, const QHostAddress& sender, quint16 port) override;
+private:
+    Server* server;
+};
 
 #endif // IREQUESTHANDLER_H

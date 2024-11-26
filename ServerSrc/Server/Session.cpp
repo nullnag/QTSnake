@@ -22,7 +22,9 @@ void Session::startGame()
 
 void Session::addPlayer(const QString& nickname)
 {
-    snakes[nickname] = new Snake();
+    if (snakes.size() < countOfPlayers){
+        snakes[nickname] = new Snake();
+    }
 }
 
 void Session::deletePlayer(const QString& nickname)
@@ -33,6 +35,11 @@ void Session::deletePlayer(const QString& nickname)
 bool Session::hasPlayer(const QString &nickname)
 {
     return snakes.contains(nickname);
+}
+
+QList<QString> Session::getPlayers()
+{
+    return snakes.keys();
 }
 
 void Session::updateGameState()
