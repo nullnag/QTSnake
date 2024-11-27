@@ -110,4 +110,5 @@ void RegisterPlayerHandler::handle(const QString &data, const QHostAddress &send
     server->addPlayer(playerName, sender, port);
     QByteArray response = "SUCCESS Player registered";
     server->sendToPlayer(playerName, response);
+    qDebug() << "Register";
 }

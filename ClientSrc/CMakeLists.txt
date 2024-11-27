@@ -39,6 +39,16 @@ set(PROJECT_SOURCES
         GameFieldView.cpp
         InputHandler.h
         InputHandler.cpp
+        ClientNetworkManager.h
+        ClientNetworkManager.cpp
+        MultiPlayerDialog.h
+        MultiPlayerDialog.cpp
+        MultiplayerMenu.h
+        MultiplayerMenu.cpp
+        RequestRouter.h
+        RequestRouter.cpp
+        IRequestHandler.h
+        IRequestHandler.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
