@@ -81,7 +81,7 @@ void Server::readPendingDatagrams()
         data.resize(socket->pendingDatagramSize());
         QHostAddress sender;
         quint16 senderPort;
-
+        qDebug() << "Received datagram:" << data << "from" << sender.toString() << ":" << senderPort;
         socket->readDatagram(data.data(), data.size(), &sender, &senderPort);
 
         processIncomingMessage(data, sender, senderPort);

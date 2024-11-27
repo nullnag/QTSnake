@@ -17,7 +17,7 @@ class Server : QObject
 {
     Q_OBJECT
 public:
-    Server(QObject *parent);
+    Server(QObject *parent = nullptr);
     ~Server();
     void sendToPlayer(const QString& playerName, const QByteArray& message);
     void addPlayer(const QString& playerName, const QHostAddress& address, quint16 port);
