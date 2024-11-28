@@ -19,7 +19,8 @@ Server::Server(QObject *parent) : QObject(parent)
     requestRouter->registerHandler("REGISTER_PLAYER", new RegisterPlayerHandler(this));
 
     socket->bind(12345,QUdpSocket::ShareAddress);
-    connect(socket, SIGNAL(readyRead()), this, SLOT(readPendingDatagrams()));
+    connect(socket, &QUdpSocket::readyRead, this, &Server::readPendingDatagrams);
+    connect(sessionManager, &SessionManager::updateGameState, this, &Server::onGameStateUpdate);
 }
 
 Server::~Server()
@@ -91,6 +92,7 @@ void Server::readPendingDatagrams()
 void Server::onGameStateUpdate(Session *session, const QByteArray &gameState)
 {
     for (const QString& player : session->getPlayers()){
+        qDebug() << "Data sended to " << player;
         sendToPlayer(player,gameState);
     }
 }

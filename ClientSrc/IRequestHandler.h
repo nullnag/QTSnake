@@ -21,4 +21,14 @@ private:
     ClientNetworkManager* networkManager;
 };
 
+class CreateRoomHandle : public IRequestHandler{
+public:
+    explicit CreateRoomHandle(ClientNetworkManager* networkManager);
+    void handle(const QString &data) override;
+signals:
+    void registrationSuccess();
+private:
+    ClientNetworkManager* networkManager;
+};
+
 #endif // IREQUESTHANDLER_H

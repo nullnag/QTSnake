@@ -49,12 +49,15 @@ set(PROJECT_SOURCES
         RequestRouter.cpp
         IRequestHandler.h
         IRequestHandler.cpp
+        CreateRoomDialog.h
+        CreateRoomDialog.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(GameWindow
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
+
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET GameWindow APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

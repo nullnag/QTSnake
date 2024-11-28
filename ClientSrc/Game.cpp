@@ -1,74 +1,74 @@
-#include "Game.h"
-#include "GameOverDialog.h"
-#include "GameWindow.h"
+#include "SinglePlayerGame.h"
+#include "SinglePlayerGameOverDialog.h"
+#include "SinglePlayerGameWindow.h"
 #include <QApplication>
 #include <QRandomGenerator>
 #include <QKeyEvent>
 #include <QTimer>
 #include <QDebug>
 
-Game::Game(GameField *gameField, Snake *snake,GameWindow* parentWindow) : gameField(gameField), snake(snake), parentWindow(parentWindow)
+SinglePlayerGame::SinglePlayerGame(SinglePlayerGameField *SinglePlayerGameField, Snake *snake,SinglePlayerGameWindow* parentWindow) : SinglePlayerGameField(SinglePlayerGameField), snake(snake), parentWindow(parentWindow)
 {
-    gameTimer = new QTimer(this);
-    connect(gameTimer, &QTimer::timeout, this, &Game::updateGame);
-    gameRules = new GameRules(gameField,snake);
-    Game::spawnFood();
+    SinglePlayerGameTimer = new QTimer(this);
+    connect(SinglePlayerGameTimer, &QTimer::timeout, this, &SinglePlayerGame::updateSinglePlayerGame);
+    SinglePlayerGameRules = new SinglePlayerGameRules(SinglePlayerGameField,snake);
+    SinglePlayerGame::spawnFood();
 }
 
-Game::~Game()
+SinglePlayerGame::~SinglePlayerGame()
 {
-    qDebug() << "~game";
-    delete gameRules;
+    qDebug() << "~SinglePlayerGame";
+    delete SinglePlayerGameRules;
 }
 
-void Game::restartGame()
+void SinglePlayerGame::restartSinglePlayerGame()
 {
-    isGameStarted = false;
-    gameField->clear();
+    isSinglePlayerGameStarted = false;
+    SinglePlayerGameField->clear();
     snake->reset();
     spawnFood();
 }
 
-void Game::endGame()
+void SinglePlayerGame::endSinglePlayerGame()
 {
     QString message;
-    if (snake->getBody().size() - 1 == gameField->getSize() * gameField->getSize()){
+    if (snake->getBody().size() - 1 == SinglePlayerGameField->getSize() * SinglePlayerGameField->getSize()){
         message = "You won!";
     }
     else{
         message = "You lost!";
     }
-    GameOverDialog dialog(message,nullptr);
+    SinglePlayerGameOverDialog dialog(message,nullptr);
     int result = dialog.exec();
 
     if (result == QDialog::Accepted) {
-        restartGame();
+        restartSinglePlayerGame();
     } else {
         parentWindow->close();
     }
 }
 
-void Game::startGame()
+void SinglePlayerGame::startSinglePlayerGame()
 {
-    if (!isGameStarted) {
-        gameTimer->start(100);
-        isGameStarted = true;
+    if (!isSinglePlayerGameStarted) {
+        SinglePlayerGameTimer->start(100);
+        isSinglePlayerGameStarted = true;
     }
 }
 
-void Game::updateGame()
+void SinglePlayerGame::updateSinglePlayerGame()
 {
     snake->move();
     QPoint newHead = snake->calculateNewHead();
-    if (gameRules->checkCollision(newHead)) {
-        gameTimer->stop();
-        endGame();
+    if (SinglePlayerGameRules->checkCollision(newHead)) {
+        SinglePlayerGameTimer->stop();
+        endSinglePlayerGame();
         return;
     }
     snake->setNewHead(newHead);
-    if (gameRules->isCollisionWithFood(newHead, foodPosition)) {
+    if (SinglePlayerGameRules->isCollisionWithFood(newHead, foodPosition)) {
         qDebug() << "Snake ate the food!";
-        gameField->getCell(foodPosition.x(),foodPosition.y())->setContent(CellContent::Snake);
+        SinglePlayerGameField->getCell(foodPosition.x(),foodPosition.y())->setContent(CellContent::Snake);
         spawnFood();
 
         snake->grow();
@@ -76,9 +76,9 @@ void Game::updateGame()
 
 }
 
-void Game::spawnFood()
+void SinglePlayerGame::spawnFood()
 {
-    int fieldSize = gameField->getSize();
+    int fieldSize = SinglePlayerGameField->getSize();
     if (snake->getBody().size() == fieldSize * fieldSize) {
         qDebug() << "No space left for food!";
         return; // Поле полностью занято
@@ -101,11 +101,11 @@ void Game::spawnFood()
         }
     }
     qDebug() << "Food spawned at:" << x << y;
-    gameField->getCell(x,y)->setContent(CellContent::Fruit);
+    SinglePlayerGameField->getCell(x,y)->setContent(CellContent::Fruit);
     foodPosition = QPoint(x, y);
 }
 
-int Game::getRandomNumber(int min, int max)
+int SinglePlayerGame::getRandomNumber(int min, int max)
 {
     return QRandomGenerator::global()->bounded(min, max + 1);
 }

@@ -10,7 +10,7 @@ void SessionManager::createSession(const QString& leaderName,const int countOfPl
     sessions[leaderName]->addPlayer(leaderName);
     connect(newSession, &Session::updateGameState, this, [this, newSession]() {
         QByteArray gameState = newSession->serializeGameState();
-        updateGameState(newSession, gameState);
+        emit updateGameState(newSession, gameState);
     });
 }
 
@@ -21,7 +21,7 @@ void SessionManager::addPlayerToSession(const QString& leaderName,const QString&
 
 Session *SessionManager::getSessionByPlayer(const QString& nickname)
 {
-    for (Session* session : sessions){
+    for (Session* session : qAsConst(sessions)){
         if (session->hasPlayer(nickname)){
             return session;
         }

@@ -1,13 +1,15 @@
 #include "IRequestHandler.h"
 
-RegistrationHandle::RegistrationHandle(ClientNetworkManager *networkManager) : networkManager(networkManager)
-{
-
-}
+RegistrationHandle::RegistrationHandle(ClientNetworkManager *networkManager) : networkManager(networkManager) {}
 
 void RegistrationHandle::handle(const QString &data)
 {
-    if (data == "Player registered") {
-        networkManager->openMultiPlayerMenu();
-    }
+    networkManager->openMultiPlayerMenu();
+}
+
+CreateRoomHandle::CreateRoomHandle(ClientNetworkManager *networkManager) : networkManager(networkManager) {}
+
+void CreateRoomHandle::handle(const QString &data)
+{
+    qDebug() << "Room created";
 }

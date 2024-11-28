@@ -9,7 +9,16 @@ CreateSessionHandler::CreateSessionHandler(Server *server) : server(server)
 void CreateSessionHandler::handle(const QString &data, const QHostAddress &sender, quint16 port)
 {
     // Формат команды: "CREATE_SESSION:<leaderName>:<countOfPlayers>:<fieldSize>"
-    QStringList parts = data.split(':');
+    QString cleanedData = data.trimmed();
+
+    // Проверяем, начинается ли сообщение с правильного типа команды
+    if (!cleanedData.startsWith("CREATE_SESSION:")) {
+        qDebug() << "Invalid command type for CREATE_SESSION:" << cleanedData;
+        return;
+    }
+
+    QStringList parts = cleanedData.split(':');
+
     if (parts.size() < 4) {
         qDebug() << "Invalid CREATE_SESSION format:" << data;
         // Ответ об ошибке
@@ -35,6 +44,9 @@ void CreateSessionHandler::handle(const QString &data, const QHostAddress &sende
 
     // Создание сессии через Server
     server->getSessionManager()->createSession(leaderName, countOfPlayers, fieldSize);
+    QByteArray response = "ROOM_CREATED";
+    server->sendToPlayer(leaderName, response);
+    qDebug() << "Session created";
 }
 
 
@@ -108,7 +120,7 @@ void RegisterPlayerHandler::handle(const QString &data, const QHostAddress &send
     }
 
     server->addPlayer(playerName, sender, port);
-    QByteArray response = "SUCCESS Player registered";
+    QByteArray response = "REGISTER_SUCCESS";
     server->sendToPlayer(playerName, response);
     qDebug() << "Register";
 }

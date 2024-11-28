@@ -17,6 +17,7 @@ public slots:
     void openMultiPlayerMenu();
 private:
     ClientNetworkManager* networkManager;
+    QString username;
 };
 
 #endif // MAINMENU_H
