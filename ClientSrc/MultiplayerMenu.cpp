@@ -1,7 +1,11 @@
 #include "MultiplayerMenu.h"
+#include "CreateRoomDialog.h"
+#include "GameWindow.h"
 
+MultiplayerMenu::MultiplayerMenu(QWidget *parent, ClientNetworkManager *networkManager, QString username) :
+    networkManager(networkManager),
+    username(username)
 
-MultiplayerMenu::MultiplayerMenu(QWidget *parent)
 {
     setWindowTitle("Multiplayer Menu");
     setFixedSize(300, 200);
@@ -24,4 +28,34 @@ MultiplayerMenu::MultiplayerMenu(QWidget *parent)
     connect(createRoomButton, &QPushButton::clicked, this, &MultiplayerMenu::createRoom);
     connect(joinRoomButton, &QPushButton::clicked, this, &MultiplayerMenu::joinRoom);
     connect(backButton, &QPushButton::clicked, this, &MultiplayerMenu::backToMainMenu);
+}
+
+
+// Формат команды: "CREATE_SESSION:<leaderName>:<countOfPlayers>:<fieldSize>"
+void MultiplayerMenu::createRoom(){
+    createRoomDialog = new CreateRoomDialog(this);
+    if (createRoomDialog->exec() == QDialog::Accepted){
+        int playersCount = createRoomDialog->getPlayerCount();
+        int fieldSize = createRoomDialog->getFieldSize();
+        QByteArray message = QString("CREATE_SESSION:%1:%2:%3")
+                                 .arg(username.trimmed())
+                                 .arg(playersCount)
+                                 .arg(fieldSize)
+                                 .toUtf8();
+        if (!networkManager){
+            qDebug() << "Network manager is nullptr";
+        }
+        networkManager->sendMessage(message);
+
+        GameWindow* gameWindow = new GameWindow(this,fieldSize);
+
+        int cellSize = 50;
+        int newWidth = fieldSize * cellSize + 20;
+        int newHeight = fieldSize * cellSize + 50;
+
+        gameWindow->setFixedSize(newWidth, newHeight);
+        gameWindow->setAttribute(Qt::WA_DeleteOnClose);
+
+        gameWindow->show();
+    }
 }

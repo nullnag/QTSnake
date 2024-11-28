@@ -14,7 +14,7 @@ void RequestRouter::route(const QByteArray &data, const QHostAddress &sender, qu
     QString type = message.section(':',0,0).trimmed();
 
     if (handlers.contains(type)){
-        handlers[type]->handle(message.section(':', 1), sender, port);
+        handlers[type]->handle(message.section(':', 0), sender, port);
     }
     else{
         qDebug() << "Unknown request type";

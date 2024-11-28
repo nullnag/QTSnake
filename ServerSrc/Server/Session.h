@@ -17,9 +17,11 @@ public:
     void deletePlayer(const QString& nickname);
     bool hasPlayer(const QString& nickname);
     QList<QString> getPlayers();
-    void updateGameState();
     Snake* getSnakeByNickName(const QString& nickname);
     QByteArray serializeGameState() const;
+    void onGameTick();
+signals:
+    void updateGameState();
 private:
     int countOfPlayers;
     int fieldSize;

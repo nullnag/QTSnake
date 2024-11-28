@@ -13,7 +13,7 @@ struct Player{
     quint16 playerPort;
 };
 
-class Server : QObject
+class Server : public QObject
 {
     Q_OBJECT
 public:
@@ -24,9 +24,10 @@ public:
     void removePlayer(const QString& playerName);
     SessionManager *getSessionManager();
     QHash<QString,Player*> getPlayers();
-private slots:
+public slots:
     void readPendingDatagrams();
     void onGameStateUpdate(Session* session, const QByteArray& gameState);
+
 private:
     void processIncomingMessage(const QByteArray& data, const QHostAddress& sender, quint16 port);
     SessionManager* sessionManager;

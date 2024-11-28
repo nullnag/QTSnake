@@ -59,11 +59,12 @@ void MainMenu::onSizeSelected(int size)
 void MainMenu::onUsernameSelected(QString username)
 {
     networkManager->connectToServer(QHostAddress("127.0.0.1"),12345,username);
+    this->username = username;
 }
 
 void MainMenu::openMultiPlayerMenu()
 {
-    MultiplayerMenu* multiplayerMenu = new MultiplayerMenu(this);
+    MultiplayerMenu* multiplayerMenu = new MultiplayerMenu(this,networkManager,username);
     multiplayerMenu->setFixedSize(300, 200);
     multiplayerMenu->setAttribute(Qt::WA_DeleteOnClose);
 

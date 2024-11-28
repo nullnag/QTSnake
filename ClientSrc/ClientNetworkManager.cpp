@@ -5,8 +5,8 @@ ClientNetworkManager::ClientNetworkManager(QObject *parent) : QObject(parent)
 {
     udpSocket = new QUdpSocket(this);
     requestRouter = new RequestRouter();
-    RegistrationHandle* registrationHandle = new RegistrationHandle(this);
-    requestRouter->registerHandler("SUCCESS",registrationHandle);
+    requestRouter->registerHandler("REGISTER_SUCCESS",new RegistrationHandle(this));
+    requestRouter->registerHandler("ROOM_CREATED",new CreateRoomHandle(this));
     connect(udpSocket, &QUdpSocket::readyRead,this, &ClientNetworkManager::readPendingDatagrams);
 }
 
