@@ -12,14 +12,13 @@ class GameWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    GameWindow(QWidget *parent = nullptr,int fieldSize = 16);
+    GameWindow(QWidget *parent = nullptr,int fieldSize = 16, IGame* typeOfGame = nullptr, IInputHandler* inputHandler = nullptr);
     ~GameWindow();
     void keyPressEvent(QKeyEvent *event);
     GameField* gameField;
     GameFieldView* gameFieldView;
-    Snake* snake;
     IInputHandler* inputHandler;
-    Game* game;
+    IGame* game;
 private:
     int fieldSize = 16;
 };

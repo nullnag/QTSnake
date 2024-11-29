@@ -18,3 +18,8 @@ void DefaultInputHandler::handleKeyPress(QKeyEvent *event, Snake *snake)
     }
 }
 
+
+void MultiPlayerInputHandler::handleKeyPress(QKeyEvent *event, Snake *snake)
+{
+    qDebug() << "Multiplayer input";
+}

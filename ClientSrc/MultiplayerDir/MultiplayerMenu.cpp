@@ -1,5 +1,6 @@
 #include "MultiplayerMenu.h"
 #include "CreateRoomDialog.h"
+#include "MultiPlayerGame.h"
 #include "GameWindow.h"
 
 MultiplayerMenu::MultiplayerMenu(QWidget *parent, ClientNetworkManager *networkManager, QString username) :
@@ -47,7 +48,9 @@ void MultiplayerMenu::createRoom(){
         }
         networkManager->sendMessage(message);
 
-        GameWindow* gameWindow = new GameWindow(this,fieldSize);
+        IGame* multiPlayerGame = new MultiPlayerGame();
+        IInputHandler* multiplayerInputHandler = new MultiPlayerInputHandler();
+        GameWindow* gameWindow = new GameWindow(this,fieldSize,multiPlayerGame, multiplayerInputHandler);
 
         int cellSize = 50;
         int newWidth = fieldSize * cellSize + 20;

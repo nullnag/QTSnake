@@ -8,7 +8,7 @@ GameRules::GameRules(GameField *gameField, Snake *snake) : gameField(gameField),
 
 GameRules::~GameRules()
 {
-
+    qDebug() << "~GmeRules()";
 }
 
 bool GameRules::checkCollision(const QPoint& newHead)
