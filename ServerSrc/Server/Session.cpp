@@ -50,7 +50,8 @@ Snake *Session::getSnakeByNickName(const QString &nickname)
 
 QByteArray Session::serializeGameState() const
 {
-
+    QByteArray message = "Message to player";
+    return message;
 }
 
 void Session::onGameTick()

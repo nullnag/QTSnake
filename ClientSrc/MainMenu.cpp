@@ -44,7 +44,9 @@ void MainMenu::multiplayerButtonPressed()
 
 void MainMenu::onSizeSelected(int size)
 {
-    GameWindow* gameWindow = new GameWindow(this,size);
+    IGame* singlePlayerGame = new Game();
+    IInputHandler* singlePlayerInputHandler = new DefaultInputHandler();
+    GameWindow* gameWindow = new GameWindow(this,size,singlePlayerGame, singlePlayerInputHandler);
 
     int cellSize = 50;
     int newWidth = size * cellSize + 20;

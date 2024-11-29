@@ -21,7 +21,7 @@ void SessionManager::addPlayerToSession(const QString& leaderName,const QString&
 
 Session *SessionManager::getSessionByPlayer(const QString& nickname)
 {
-    for (Session* session : qAsConst(sessions)){
+    for (Session* session : sessions){
         if (session->hasPlayer(nickname)){
             return session;
         }

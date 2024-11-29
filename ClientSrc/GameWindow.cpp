@@ -2,30 +2,32 @@
 #include <QGraphicsView>
 #include <QDebug>
 
-GameWindow::GameWindow(QWidget *parent,int fieldSize) :
+GameWindow::GameWindow(QWidget *parent,int fieldSize, IGame* typeOfGame, IInputHandler* inputHandler) :
     fieldSize(fieldSize)
     , QMainWindow(parent)
+    , game(typeOfGame)
+    , inputHandler(inputHandler)
 {
     gameField = new GameField(this,fieldSize);
     gameFieldView = new GameFieldView(gameField,this);
-    snake = new Snake(gameField);
-    inputHandler = new DefaultInputHandler();
-    game = new Game(gameField,snake,this);
 
     QGraphicsView* view = new QGraphicsView(gameFieldView, this);
     view->setFocusPolicy(Qt::StrongFocus);
     setCentralWidget(view);
 
+    if (game) {
+        game->initialize(gameField, this);
+    }
 }
 
 GameWindow::~GameWindow() {
     delete game;
-    delete snake;
+    delete inputHandler;
     qDebug() << "~GameWindow";
 }
 
 void GameWindow::keyPressEvent(QKeyEvent *event)
 {
-    inputHandler->handleKeyPress(event,snake);
+    inputHandler->handleKeyPress(event,game->getSnake());
     game->startGame();
 }

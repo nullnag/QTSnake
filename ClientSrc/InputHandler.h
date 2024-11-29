@@ -15,4 +15,8 @@ class DefaultInputHandler : public IInputHandler{
     void handleKeyPress(QKeyEvent* event, Snake* snake) override;
 };
 
+class MultiPlayerInputHandler : public IInputHandler{
+    void handleKeyPress(QKeyEvent* event, Snake* snake) override;
+};
+
 #endif // INPUTHANDLER_H

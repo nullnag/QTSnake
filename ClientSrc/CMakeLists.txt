@@ -14,49 +14,36 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Network)
 
 set(PROJECT_SOURCES
-        main.cpp
-        GameWindow.cpp
-        GameWindow.h
-        cell.h
-        cell.cpp
-        Game.h
-        Game.cpp
-        GameField.h
-        GameField.cpp
-        gameRules.h
-        gameRules.cpp
-        Snake.h
-        Snake.cpp
-        GameOverDialog.h
-        GameOverDialog.cpp
-        MainMenu.h
-        MainMenu.cpp
-        GameSizeDialogue.h
-        GameSizeDialogue.cpp
-        CellView.h
-        CellView.cpp
-        GameFieldView.h
-        GameFieldView.cpp
-        InputHandler.h
-        InputHandler.cpp
-        ClientNetworkManager.h
-        ClientNetworkManager.cpp
-        MultiPlayerDialog.h
-        MultiPlayerDialog.cpp
-        MultiplayerMenu.h
-        MultiplayerMenu.cpp
-        RequestRouter.h
-        RequestRouter.cpp
-        IRequestHandler.h
-        IRequestHandler.cpp
-        CreateRoomDialog.h
-        CreateRoomDialog.cpp
+    GameWindow.h GameWindow.cpp
+    InputHandler.h InputHandler.cpp
+    main.cpp
+    MainMenu.h MainMenu.cpp
+
+    FieldDir/cell.cpp FieldDir/cell.h
+    FieldDir/CellView.h FieldDir/CellView.cpp
+    FieldDir/GameField.h FieldDir/GameField.cpp
+    FieldDir/GameFieldView.h FieldDir/GameFieldView.cpp
+
+    MultiplayerDir/ClientNetworkManager.h MultiplayerDir/ClientNetworkManager.cpp
+    MultiplayerDir/CreateRoomDialog.h MultiplayerDir/CreateRoomDialog.cpp
+    MultiplayerDir/IRequestHandler.h MultiplayerDir/IRequestHandler.cpp
+    MultiplayerDir/MultiPlayerDialog.h MultiplayerDir/MultiPlayerDialog.cpp
+    MultiplayerDir/MultiPlayerGame.h MultiplayerDir/MultiPlayerGame.cpp
+    MultiplayerDir/MultiplayerMenu.h MultiplayerDir/MultiplayerMenu.cpp
+    MultiplayerDir/RequestRouter.h MultiplayerDir/RequestRouter.cpp
+
+    SingleplayerDir/Game.h SingleplayerDir/Game.cpp
+    SingleplayerDir/GameOverDialog.h SingleplayerDir/GameOverDialog.cpp
+    SingleplayerDir/gameRules.h SingleplayerDir/gameRules.cpp
+    SingleplayerDir/GameSizeDialogue.h SingleplayerDir/GameSizeDialogue.cpp
+    SingleplayerDir/Snake.h SingleplayerDir/Snake.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(GameWindow
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
+
 
     )
 # Define target properties for Android with Qt 6 as:
@@ -77,8 +64,7 @@ else()
     endif()
 endif()
 
-target_link_libraries(GameWindow PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
-target_link_libraries(GameWindow PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Network)
+target_link_libraries(GameWindow PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Network)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
@@ -100,6 +86,14 @@ install(TARGETS GameWindow
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
+
+target_include_directories(GameWindow PRIVATE
+    ${CMAKE_SOURCE_DIR}
+    FieldDir
+    MultiplayerDir
+    SingleplayerDir
+)
+
 
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(GameWindow)
