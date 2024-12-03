@@ -9,7 +9,7 @@ class RequestRouter
 public:
     RequestRouter() = default;
     void registerHandler(const QString& type, IRequestHandler* handler);
-    void route(const QByteArray& data);
+    void route(const QString& type, const QString& content);
 private:
     QHash<QString, IRequestHandler*> handlers;
 };

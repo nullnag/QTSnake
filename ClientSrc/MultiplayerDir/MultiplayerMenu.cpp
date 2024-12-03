@@ -48,7 +48,8 @@ void MultiplayerMenu::createRoom(){
         }
         networkManager->sendMessage(message);
 
-        IGame* multiPlayerGame = new MultiPlayerGame();
+        MultiPlayerGame* multiPlayerGame = new MultiPlayerGame();
+        networkManager->setGameInstance(multiPlayerGame);
         IInputHandler* multiplayerInputHandler = new MultiPlayerInputHandler();
         GameWindow* gameWindow = new GameWindow(this,fieldSize,multiPlayerGame, multiplayerInputHandler);
 

@@ -103,24 +103,38 @@ QByteArray Session::serializeGameState() const
 {
     QJsonObject gameStateJson;
     QJsonObject snakesJson;
+
+    // Проходим по всем игрокам и создаем их змейки
     for (const QString& playerName : getPlayers()) {
         Snake* snake = getSnakeByNickName(playerName);
         QJsonArray bodyArray;
+
+        // Проходим по всем сегментам змейки и создаем их координаты
         for (const QPoint& segment : snake->getBody()) {
             QJsonObject segmentJson;
             segmentJson["x"] = segment.x();
             segmentJson["y"] = segment.y();
             qDebug() << "snake X:" << segment.x();
             qDebug() << "snake Y:" << segment.y();
-
             bodyArray.append(segmentJson);
         }
+
+        // Добавляем змейку игрока в общий объект змейок
         snakesJson[playerName] = bodyArray;
     }
+
+    // Добавляем змейки в объект состояния игры
     gameStateJson["snakes"] = snakesJson;
 
+    // Формируем сообщение с типом и данными
+    QJsonObject message;
+    message["type"] = "GAME_STATE";
+    message["data"] = gameStateJson;
+
     // Преобразуем JSON в QByteArray
-    QJsonDocument doc(gameStateJson);
+    QJsonDocument doc(message);
+
+    // Возвращаем сериализованный JSON
     return doc.toJson();
 }
 

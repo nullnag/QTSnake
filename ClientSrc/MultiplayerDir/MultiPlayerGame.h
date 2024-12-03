@@ -13,7 +13,8 @@ public:
     void initialize(GameField* gameField, GameWindow* parentWindow) override;
     void startGame() override;
     Snake *getSnake() override;
-    void updateGame() override;
+    void updateGame(const QJsonObject& gameState);
+    void clearSnakeFromField();
     void spawnFood() override;
 private:
     QVector<QPoint> foodPositions;
