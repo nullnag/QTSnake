@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QUdpSocket>
+#include "MultiPlayerGame.h"
 #include <QHostAddress>
 
 class RequestRouter;
@@ -17,6 +18,8 @@ public:
     bool connectToServer(const QHostAddress& serverAddress, quint16 serverPort, const QString& username);
     void sendMessage(const QByteArray& message);
     void processIncomingMessage(const QByteArray& data);
+    void setGameInstance(MultiPlayerGame* game);
+    MultiPlayerGame *getGameInstance();
     void closeConnection();
 signals:
     void messageReceived(const QByteArray& message, const QHostAddress& sender, quint16 senderPort);
@@ -24,6 +27,7 @@ signals:
 private slots:
     void readPendingDatagrams();
 private:
+    MultiPlayerGame* game;
     RequestRouter* requestRouter;
     QUdpSocket* udpSocket;
     QHostAddress serverAddress;

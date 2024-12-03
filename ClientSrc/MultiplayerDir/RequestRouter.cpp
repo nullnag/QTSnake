@@ -6,16 +6,12 @@ void RequestRouter::registerHandler(const QString &type, IRequestHandler* handle
 
 }
 
-void RequestRouter::route(const QByteArray& data)
+void RequestRouter::route(const QString& type, const QString& content)
 {
-    QString message = QString::fromUtf8(data).trimmed();
-    QString type = message.section(' ', 0, 0).trimmed();
-    QString payload = message.section(' ', 1).trimmed();
-
     if (handlers.contains(type)) {
-        handlers[type]->handle(payload);
+        handlers[type]->handle(content);
     } else {
-        qDebug() << "Unknown request type:" << type;
+        qWarning() << "No handler registered for message type:" << type;
     }
 }
 

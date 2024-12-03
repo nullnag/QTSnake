@@ -31,4 +31,12 @@ private:
     ClientNetworkManager* networkManager;
 };
 
+class GameStateHandle : public IRequestHandler{
+public:
+    explicit GameStateHandle(ClientNetworkManager* networkManager);
+    void handle(const QString &data) override;
+private:
+    ClientNetworkManager* networkManager;
+};
+
 #endif // IREQUESTHANDLER_H

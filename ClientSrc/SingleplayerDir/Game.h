@@ -17,7 +17,6 @@ public:
     virtual void endGame() = 0;
     virtual void startGame() = 0;
     virtual Snake* getSnake() = 0;
-    virtual void updateGame() = 0;
     virtual void spawnFood() = 0;
 };
 
@@ -31,7 +30,7 @@ public:
     void endGame() override;
     void initialize(GameField* gameField, GameWindow* parentWindow) override;
     void startGame() override;
-    void updateGame() override;
+    void updateGame() ;
     Snake *getSnake() override;
     void spawnFood() override;
     int getRandomNumber(int min, int max);

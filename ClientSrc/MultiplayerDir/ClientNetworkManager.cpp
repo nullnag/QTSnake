@@ -1,5 +1,7 @@
 #include "ClientNetworkManager.h"
 #include "RequestRouter.h"
+#include <QJsonDocument>
+#include <QJsonObject>
 
 ClientNetworkManager::ClientNetworkManager(QObject *parent) : QObject(parent)
 {
@@ -7,6 +9,7 @@ ClientNetworkManager::ClientNetworkManager(QObject *parent) : QObject(parent)
     requestRouter = new RequestRouter();
     requestRouter->registerHandler("REGISTER_SUCCESS",new RegistrationHandle(this));
     requestRouter->registerHandler("ROOM_CREATED",new CreateRoomHandle(this));
+    requestRouter->registerHandler("GAME_STATE", new GameStateHandle(this));
     connect(udpSocket, &QUdpSocket::readyRead,this, &ClientNetworkManager::readPendingDatagrams);
 }
 
@@ -57,7 +60,39 @@ void ClientNetworkManager::readPendingDatagrams()
 }
 
 void ClientNetworkManager::processIncomingMessage(const QByteArray& data){
-    requestRouter->route(data);
+    if (data.startsWith('{') && data.endsWith('\n')) {
+        // Пытаемся интерпретировать данные как JSON
+        QJsonDocument doc = QJsonDocument::fromJson(data);
+        if (doc.isObject()) {
+            QJsonObject root = doc.object();
+            QString type = root.value("type").toString();
+            QJsonObject messageData = root.value("data").toObject();
+
+            qDebug() << "JSON Message type:" << type;
+            qDebug() << "JSON Message data:" << messageData;
+
+            requestRouter->route(type, QString(QJsonDocument(messageData).toJson(QJsonDocument::Compact)));
+            return;
+        }
+    }
+
+    // Если это не JSON, проверяем, что это текстовая команда
+    QString message = QString::fromUtf8(data).trimmed();
+    if (!message.isEmpty()) {
+        qDebug() << "Text message received:" << message;
+        requestRouter->route(message, "");
+        return;
+    }
+}
+
+void ClientNetworkManager::setGameInstance(MultiPlayerGame *game)
+{
+    this->game = game;
+}
+
+MultiPlayerGame *ClientNetworkManager::getGameInstance()
+{
+    return game;
 }
 
 void ClientNetworkManager::closeConnection()
