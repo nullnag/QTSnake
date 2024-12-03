@@ -21,6 +21,10 @@ add_executable(Server
   IRequestHandler.h IRequestHandler.cpp
   RequestRouter.h RequestRouter.cpp
   Snake.h Snake.cpp
+  GameField.h GameField.cpp
+  Cell.h Cell.cpp
+  Game.h Game.cpp
+  GameRules.h GameRules.cpp
 )
 target_link_libraries(Server PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Network)
 
